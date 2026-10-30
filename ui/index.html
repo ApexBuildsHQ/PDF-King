@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF King - تحكم في ملفاتك كالملوك</title>
+    <meta name="description" content="أكثر من 60 أداة تحت تصرفك: دمج، تقسيم، وتحويل ملفات PDF بسرعة البرق وبخصوصية تامة 100%.">
+    <meta property="og:title" content="PDF King - تحكم في ملفاتك كالملوك">
+    <meta property="og:description" content="أكثر من 60 أداة تحت تصرفك: دمج، تقسيم، وتحويل ملفات PDF بسرعة البرق وبخصوصية تامة 100%.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
+    <link rel="icon" type="image/svg+xml" href="public/images/favicon.svg">
+    <link href="/src/css/styles.css" rel="stylesheet">
+</head>
+
+<body class="antialiased pb-28">
+
+    <!-- Top Navigation Bar matching screenshot -->
+    <header class="sticky top-0 z-30 bg-white/95 dark:bg-[#0b1120]/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800/80 transition-colors">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+            <div class="flex items-center justify-between h-16">
+
+                <!-- Logo with Golden Crown: Always unified block with Crown + PDF + King -->
+                <div class="flex items-center gap-2 cursor-pointer select-none" id="brand-logo" dir="ltr">
+                    <!-- Crown Emoji on the left -->
+                    <span class="text-2xl sm:text-3xl leading-none select-none flex-shrink-0" aria-hidden="true">👑</span>
+                    <span class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white flex items-center tracking-tight leading-none">
+                        <span>PDF</span><span class="text-amber-500 font-extrabold ml-0.5">King</span>
+                    </span>
+                </div>
+
+                <!-- Controls on the opposite side -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Settings Button (Language, Direct Link & Preferences) -->
+                    <button id="header-settings-btn" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer" title="الإعدادات واللغة" data-i18n-title="actions.settings">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                    </button>
+
+                    <!-- Dark / Light Theme Toggle -->
+                    <button id="theme-toggle-btn" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer" title="تبديل المظهر" data-i18n-title="actions.switch_theme">
+                        <i id="theme-icon" data-lucide="sun" class="w-5 h-5 text-amber-500"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <div id="app" class="min-h-screen max-w-5xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10">
+
+        <!-- MAIN VIEW (Grid & Tools) -->
+        <main id="main-view" class="space-y-6">
+
+            <!-- Hero Section matching screenshot -->
+            <section id="hero-section" class="text-center pt-4 sm:pt-8 pb-4">
+                <h1 class="hero-title text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 tracking-tight leading-snug" data-i18n="app.tagline">
+                    تحكم في ملفاتك كالملوك.
+                </h1>
+                <p class="hero-subtitle text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 font-normal leading-relaxed" data-i18n="app.subtitle">
+                    أكثر من 60 أداة تحت تصرفك: دمج، تقسيم، وتحويل الملفات بسرعة البرق وبخصوصية تامة.
+                </p>
+
+                <!-- Search Bar matching screenshot -->
+                <div class="max-w-xl mx-auto relative mb-6">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-4 pointer-events-none text-gray-400 dark:text-gray-500">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </div>
+                    <input type="text" id="search-bar"
+                        class="w-full py-3.5 ps-12 pe-4 rounded-full shadow-xs focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm sm:text-base"
+                        data-i18n-placeholder="app.search_placeholder"
+                        placeholder="ابحث عن أداة (مثل: دمج، ضغط...)">
+                </div>
+            </section>
+
+            <!-- Category Pills Bar matching screenshot -->
+            <section id="categories-section" class="mb-4">
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 px-1 text-sm font-medium" id="category-pills-container">
+                    <!-- Dynamic Category Pills generated by JS -->
+                </div>
+            </section>
+
+            <!-- Slim Responsive Ad Space matching screenshot -->
+            <div class="ad-space-slim max-w-4xl mx-auto py-3 px-4 text-center my-6 flex items-center justify-center font-medium tracking-wider" data-i18n="app.ad_space_slim">
+                AD SPACE (SLIM RESPONSIVE)
+            </div>
+
+            <!-- Tools Grid View (2 columns matching screenshot) -->
+            <section id="grid-view" class="max-w-4xl mx-auto">
+                <div id="tool-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 mb-16">
+                    <!-- Tool Cards populated by main.ts -->
+                </div>
+
+                <!-- Empty search results notice -->
+                <div id="no-tools-found" class="hidden text-center py-16">
+                    <div class="w-16 h-16 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="search-x" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="hero-title text-xl font-bold mb-2" data-i18n="app.no_tools_title">لم يتم العثور على أداة مطابقة</h3>
+                    <p class="hero-subtitle text-sm" data-i18n="app.no_tools_desc">جرب البحث بكلمة أخرى مثل: دمج، تقسيم، ضغط، تحويل...</p>
+                </div>
+            </section>
+
+            <!-- Post-Grid Ad Space -->
+            <div id="post-grid-ad" class="ad-space-slim max-w-4xl mx-auto py-3 px-4 text-center my-8 flex items-center justify-center font-medium tracking-wider" data-i18n="app.ad_space_slim">
+                AD SPACE (SLIM RESPONSIVE)
+            </div>
+
+            <!-- Security Guarantees Component (Client-Side & Compliance) -->
+            <div id="security-guarantees-container"></div>
+
+            <!-- FAQ Section (Frequently Asked Questions) -->
+            <div id="faq-section-container">
+                <section id="faq-section" class="max-w-4xl mx-auto my-12 px-4 sm:px-0">
+                    <div class="text-center max-w-2xl mx-auto mb-8">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 mb-3" data-i18n="faq.badge">
+                            الأسئلة الشائعة
+                        </span>
+                        <h2 class="hero-title text-2xl sm:text-3xl font-black mb-2" data-i18n="faq.title">
+                            كل ما تود معرفته عن الأمان والخدمة
+                        </h2>
+                        <p class="hero-subtitle text-sm sm:text-base" data-i18n="faq.subtitle">
+                            إجابات واضحة ومباشرة عن كيفية عمل المعالجة المحلية وضمانات الخصوصية.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4 max-w-3xl mx-auto">
+                        <!-- Question 1 -->
+                        <details class="group tool-card p-5 sm:p-6 rounded-2xl border transition-all cursor-pointer">
+                            <summary class="flex items-center justify-between font-bold text-base sm:text-lg text-gray-900 dark:text-white list-none">
+                                <span data-i18n="faq.q1_title">هل يتم رفع ملفاتي إلى أي خادم خارجي؟</span>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <p class="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-gray-800/80 pt-3" data-i18n="faq.q1_ans">
+                                لا على الإطلاق. تعمل جميع أدوات PDF King محلياً داخل متصفحك مباشرة؛ ملفاتك تبقى دائماً على جهازك ولا تمر بأي خادم سحابي.
+                            </p>
+                        </details>
+
+                        <!-- Question 2 -->
+                        <details class="group tool-card p-5 sm:p-6 rounded-2xl border transition-all cursor-pointer">
+                            <summary class="flex items-center justify-between font-bold text-base sm:text-lg text-gray-900 dark:text-white list-none">
+                                <span data-i18n="faq.q2_title">هل الموقع آمن للاستخدام مع المستندات الحساسة؟</span>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <p class="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-gray-800/80 pt-3" data-i18n="faq.q2_ans">
+                                نعم بنسبة 100%. نظراً لعدم وجود رفع أو خوادم خلفية، فهو متوافق مع معايير GDPR و CCPA و HIPAA ومعتمد للمستندات القانونية والمالية والطبية.
+                            </p>
+                        </details>
+
+                        <!-- Question 3 -->
+                        <details class="group tool-card p-5 sm:p-6 rounded-2xl border transition-all cursor-pointer">
+                            <summary class="flex items-center justify-between font-bold text-base sm:text-lg text-gray-900 dark:text-white list-none">
+                                <span data-i18n="faq.q3_title">هل الخدمة مجانية وهل توجد حدود لحجم الملفات؟</span>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <p class="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-gray-800/80 pt-3" data-i18n="faq.q3_ans">
+                                الخدمة مجانية بالكامل وبدون قيود على عدد العمليات اليومية. حجم الملفات يعتمد فقط على ذاكرة ومواصفات جهازك ومتصفحك.
+                            </p>
+                        </details>
+
+                        <!-- Question 4 -->
+                        <details class="group tool-card p-5 sm:p-6 rounded-2xl border transition-all cursor-pointer">
+                            <summary class="flex items-center justify-between font-bold text-base sm:text-lg text-gray-900 dark:text-white list-none">
+                                <span data-i18n="faq.q4_title">هل يتم تخزين ملفاتي في قواعد بيانات لكي تظهر في صفحة السجل؟</span>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <p class="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-gray-800/80 pt-3" data-i18n="faq.q4_ans">
+                                لا يتم تخزين ملفاتك على أي خوادم أو قواعد بيانات خارجية إطلاقاً. السجل والملفات تُحفظ محلياً على جهازك فقط باستخدام تقنية IndexedDB في متصفحك، وتظل متاحة لك حتى تقوم بمسح بيانات المتصفح أو امتلاء ذاكرة الجهاز.
+                            </p>
+                        </details>
+
+                        <!-- Question 5 -->
+                        <details class="group tool-card p-5 sm:p-6 rounded-2xl border transition-all cursor-pointer">
+                            <summary class="flex items-center justify-between font-bold text-base sm:text-lg text-gray-900 dark:text-white list-none">
+                                <span data-i18n="faq.q5_title">هل يعمل موقع PDFKing على كافة الأجهزة وأنظمة التشغيل؟</span>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <p class="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-gray-800/80 pt-3" data-i18n="faq.q5_ans">
+                                نعم، يعمل بتوافق تام على جميع الأجهزة (Windows, Mac, Linux, Android, iOS) ومن خلال أي متصفح حديث دون الحاجة لتثبيت أي برامج.
+                            </p>
+                        </details>
+
+                        <!-- Question 6 -->
+                        <details class="group tool-card p-5 sm:p-6 rounded-2xl border transition-all cursor-pointer">
+                            <summary class="flex items-center justify-between font-bold text-base sm:text-lg text-gray-900 dark:text-white list-none">
+                                <span data-i18n="faq.q6_title">ما الذي يميّز PDFKing عن بقية أدوات الـ PDF عبر الإنترنت؟</span>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <p class="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-gray-800/80 pt-3" data-i18n="faq.q6_ans">
+                                يجمع PDFKing بين السرعة الفائقة، والخصوصية المطلقة بفضل المعالجة المحلية (Client-Side) بنسبة 100% دون رفع الملفات، مع مجانية الأدوات بالكامل وبدون قيود يومية ويتم حفظ نسخة من ملفاتك محليا لكى لا تضطر الى القيام بالعملية مرة اخرى فى حالة تلف الملف او حذفه بالخطأ من على جهازك بعد التحميل.
+                            </p>
+                        </details>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Tool Interface (When a tool is opened) -->
+            <section id="tool-interface" class="hidden w-full max-w-4xl mx-auto rounded-3xl shadow-xl p-6 md:p-8 transition-all">
+                <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800/80 pb-4 mb-6">
+                    <button id="back-to-grid" class="inline-flex items-center gap-2 text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 font-bold text-sm sm:text-base cursor-pointer transition-colors">
+                        <i data-lucide="arrow-right" class="w-5 h-5 rtl:inline-block ltr:hidden"></i>
+                        <i data-lucide="arrow-left" class="w-5 h-5 ltr:inline-block rtl:hidden"></i>
+                        <span data-i18n="actions.back">العودة للأدوات</span>
+                    </button>
+                    <span id="active-tool-title" class="text-lg font-bold"></span>
+                </div>
+                <div id="tool-content">
+                    <!-- Tool interactive elements injected by ui.ts -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FEATURES VIEW (Triggered from bottom nav or header) -->
+        <section id="features-view" class="hidden max-w-4xl mx-auto py-8 space-y-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 mb-3" data-i18n="features.badge">
+                    لماذا تختار PDF King؟
+                </span>
+                <h2 class="hero-title text-3xl sm:text-4xl font-black mb-3" data-i18n="features.title">
+                    ميزات استثنائية صُممت للملوك
+                </h2>
+                <p class="hero-subtitle text-sm sm:text-base" data-i18n="features.subtitle">
+                    أدوات متطورة وشاملة تلبي كافة احتياجاتك مع الحفاظ على أعلى معايير الخصوصية والسرعة.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div class="tool-card p-6 shadow-xs">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-4">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="tool-card-title text-lg font-bold mb-2" data-i18n="features.privacy_title">خصوصية تامة 100%</h3>
+                    <p class="tool-card-subtitle text-sm leading-relaxed" data-i18n="features.privacy_desc">تتم كافة عمليات المعالجة والتحويل محلياً داخل متصفحك مباشرة بدون إرسال ملفاتك إلى أي خادم خارجي.</p>
+                </div>
+
+                <div class="tool-card p-6 shadow-xs">
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-4">
+                        <i data-lucide="zap" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="tool-card-title text-lg font-bold mb-2" data-i18n="features.speed_title">سرعة البرق</h3>
+                    <p class="tool-card-subtitle text-sm leading-relaxed" data-i18n="features.speed_desc">محرك معالجة مبني على أحدث تقنيات الويب ليمنحك استجابة فورية دون انتظار قوائم التحميل الطويلة.</p>
+                </div>
+
+                <div class="tool-card p-6 shadow-xs">
+                    <div class="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-4">
+                        <i data-lucide="crown" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="tool-card-title text-lg font-bold mb-2" data-i18n="features.unlimited_title">أكثر من 60 أداة بدون حدود</h3>
+                    <p class="tool-card-subtitle text-sm leading-relaxed" data-i18n="features.unlimited_desc">مكتبة ضخمة تغطي كل عمليات التعديل، التحويل، التنظيم، الحماية والتوقيع دون أي قيود على عدد الملفات.</p>
+                </div>
+
+                <div class="tool-card p-6 shadow-xs">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-4">
+                        <i data-lucide="smartphone" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="tool-card-title text-lg font-bold mb-2" data-i18n="features.no_install_title">بدون برامج أو تثبيت</h3>
+                    <p class="tool-card-subtitle text-sm leading-relaxed" data-i18n="features.no_install_desc">يعمل بسلاسة على الهواتف الذكية والأجهزة اللوحية وأجهزة الكمبيوتر مباشرة عبر أي متصفح حديث.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- HISTORY VIEW (Triggered from bottom nav) -->
+        <section id="history-view" class="hidden max-w-4xl mx-auto py-8 space-y-6">
+            <div class="border-b border-gray-100 dark:border-gray-800 pb-4">
+                <h2 class="hero-title text-2xl font-black" data-i18n="history.title">سجل العمليات والملفات الأخيرة</h2>
+                <p class="hero-subtitle text-sm mt-1" data-i18n="history.subtitle">يتم حفظ سجل عملياتك محلياً على متصفحك للحفاظ على خصوصيتك التامة.</p>
+            </div>
+
+            <div id="history-list" class="space-y-3">
+                <!-- Dynamically populated or empty message -->
+                <div class="tool-card text-center py-16 p-8 shadow-xs">
+                    <div class="w-16 h-16 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="history" class="w-8 h-8"></i>
+                    </div>
+                    <p class="tool-card-title font-semibold mb-2" data-i18n="history.empty">لا توجد ملفات معالجة حديثاً. ابدأ بتجربة إحدى الأدوات أعلاه!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SITE FOOTER -->
+        <div id="footer-container"></div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar matching screenshot -->
+    <nav class="bottom-nav">
+        <div class="max-w-md mx-auto px-6 h-16 flex items-center justify-around">
+
+            <!-- History Tab -->
+            <button id="tab-history" class="nav-tab-btn flex flex-col items-center gap-1 cursor-pointer py-1">
+                <i data-lucide="history" class="w-5 h-5"></i>
+                <span class="text-xs font-semibold" data-i18n="nav.history">السجل</span>
+            </button>
+
+            <!-- Features Tab -->
+            <button id="tab-features" class="nav-tab-btn flex flex-col items-center gap-1 cursor-pointer py-1">
+                <i data-lucide="crown" class="w-5 h-5"></i>
+                <span class="text-xs font-semibold" data-i18n="nav.features">المميزات</span>
+            </button>
+
+            <!-- Home Tab (Default active with golden color) -->
+            <button id="tab-home" class="nav-tab-btn active flex flex-col items-center gap-1 cursor-pointer py-1">
+                <i data-lucide="home" class="w-5 h-5"></i>
+                <span class="text-xs font-semibold" data-i18n="nav.home">الرئيسية</span>
+            </button>
+
+        </div>
+    </nav>
+
+    <!-- Settings & Language Modal -->
+    <div id="settings-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-[#162032] max-w-md w-full p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-2xl space-y-6">
+            <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <i data-lucide="settings" class="w-5 h-5 text-amber-500"></i>
+                    <span data-i18n="actions.settings">الإعدادات</span>
+                </h3>
+                <button id="close-settings-modal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Language Switcher -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-i18n="actions.language">اللغة</label>
+                <div id="language-options-grid" class="grid grid-cols-2 gap-2 max-h-64 sm:max-h-72 overflow-y-auto pr-1">
+                    <!-- Populated dynamically from availableLanguages -->
+                </div>
+            </div>
+
+            <!-- Theme Switcher -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider" data-i18n="actions.switch_theme">المظهر</label>
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="btn-theme-dark" class="py-2.5 px-4 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-xs flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all cursor-pointer">
+                        <i data-lucide="moon" class="w-4 h-4 text-indigo-400"></i>
+                        <span data-i18n="actions.theme_dark">الوضع الليلي</span>
+                    </button>
+                    <button id="btn-theme-light" class="py-2.5 px-4 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-xs flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all cursor-pointer">
+                        <i data-lucide="sun" class="w-4 h-4 text-amber-500"></i>
+                        <span data-i18n="actions.theme_light">الوضع النهاري</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-2">
+                <button id="done-settings-btn" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm shadow-md transition-colors" data-i18n="actions.ok">
+                    موافق
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Processing Loader Modal -->
+    <div id="loader-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-[#162032] p-8 rounded-3xl flex flex-col items-center gap-4 border border-gray-100 dark:border-gray-800 shadow-2xl max-w-sm w-full text-center">
+            <div class="solid-spinner"></div>
+            <p id="loader-text" class="text-gray-900 dark:text-white text-base font-bold" data-i18n="actions.processing">جاري المعالجة كالملوك...</p>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div id="alert-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-[#162032] max-w-sm w-full p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-2xl text-center">
+            <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto mb-3">
+                <i data-lucide="alert-circle" class="w-6 h-6"></i>
+            </div>
+            <h3 id="alert-title" class="text-lg font-bold text-gray-900 dark:text-white mb-2">تنبيه</h3>
+            <p id="alert-message" class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed"></p>
+            <button id="alert-ok" class="w-full py-2.5 px-6 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm shadow-sm transition-colors" data-i18n="actions.ok">
+                موافق
+            </button>
+        </div>
+    </div>
+
+    <!-- Document Preview Modal -->
+    <div id="preview-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-[#162032] text-gray-900 dark:text-white rounded-3xl shadow-2xl w-full max-w-4xl h-[88vh] flex flex-col border border-gray-200 dark:border-gray-800 overflow-hidden">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-900/50">
+                <h3 class="text-lg font-bold">معاينة المستند</h3>
+                <div class="flex gap-2">
+                    <button id="preview-download-btn" class="bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs sm:text-sm py-2 px-4 rounded-xl shadow-xs transition-colors" data-i18n="actions.download">تحميل الملف</button>
+                    <button id="preview-close-btn" class="bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold text-xs sm:text-sm py-2 px-4 rounded-xl transition-colors" data-i18n="actions.close">إغلاق</button>
+                </div>
+            </div>
+            <div id="preview-content" class="p-4 sm:p-6 overflow-y-auto flex-grow bg-gray-100 dark:bg-[#0b1120]"></div>
+        </div>
+    </div>
+
+    <!-- Signature Ghost -->
+    <div id="signature-ghost" class="hidden"></div>
+
+    <script type="module" src="/src/js/main.ts"></script>
+</body>
+
+</html>
